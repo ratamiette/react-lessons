@@ -3,7 +3,15 @@ import React, { Component } from 'react';
 class Counter extends Component {
     state = {
         count: 0
+        ,tags: ['tag1', 'tag2']
     };
+
+    // constructor() {
+    //     super();
+    //     // That's a way to make the "this" into the handleIncrement method refer our component - else, undefined will be returned
+    //     // The current solution we'll use to fix this is convert the handleIncrement to an arrow function (arrow functions does not rebind the "this")
+    //     this.handleIncrement = this.handleIncrement.bind(this);
+    // }
 
     render() {
         /**
@@ -13,15 +21,30 @@ class Counter extends Component {
          */
         return (
             <React.Fragment>
-                <span>{this.formatCount()}</span>
-                <button>Increment</button>
+                <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+                <button onClick={this.handleIncrement} className="btn btn-secondary btn-sm">Increment</button>
+                <ul>
+                    { this.state.tags.map(tag => <li key={ tag }>{ tag }</li>)}
+                </ul>
             </React.Fragment>
         );
+    }
+
+    getBadgeClasses() {
+        let classes = "badge m-2 badge-";
+        classes += this.state.count === 0 ? "warning" : "primary";
+
+        return classes;
     }
 
     formatCount() {
         const { count } = this.state;
         return count === 0 ? 'Zero' : count;
+    }
+
+    // Converted to arrow function - by this way the "this" will refer that object, otherwise will be undefined
+    handleIncrement = () => {
+        console.log('Increment', this);
     }
 }
 
