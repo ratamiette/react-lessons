@@ -1,17 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import ReactDom from 'react-dom';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+/**
+ * <h1>Hello</h1> = JSX expression
+ * Babel will compile the JSX expression to a call to React.createElement - that's why we need to import the React object on the top.
+ * The result of a JSX expression is a react element which is part of a virtual DOM.
+ * To render this inside of the real DOM, we have to import the ReactDom on the top.
+ */
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const element = <h1>Hello</h1>;
+// console.log(element);
+
+// To render this inside of the real Dom:
+ReactDom.render(element, document.getElementById('root'));
