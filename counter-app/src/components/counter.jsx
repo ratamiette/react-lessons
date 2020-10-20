@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Counter extends Component {
     state = {
         count: 0
-        ,tags: ['tag1', 'tag2']
+        // ,tags: ['tag1', 'tag2']
     };
 
     // constructor() {
@@ -22,10 +22,10 @@ class Counter extends Component {
         return (
             <React.Fragment>
                 <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
-                <button onClick={this.handleIncrement} className="btn btn-secondary btn-sm">Increment</button>
-                <ul>
+                <button onClick={ () => this.handleIncrement({ id: 1 }) } className="btn btn-secondary btn-sm">Increment</button>
+                {/* <ul>
                     { this.state.tags.map(tag => <li key={ tag }>{ tag }</li>)}
-                </ul>
+                </ul> */}
             </React.Fragment>
         );
     }
@@ -43,8 +43,9 @@ class Counter extends Component {
     }
 
     // Converted to arrow function - by this way the "this" will refer that object, otherwise will be undefined
-    handleIncrement = () => {
-        console.log('Increment', this);
+    handleIncrement = (product) => {
+        console.log(product);
+        this.setState({ count: this.state.count + 1 });
     }
 }
 
