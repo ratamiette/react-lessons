@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 
 class Counter extends Component {
-    state = {
-        count: 0
-        // ,tags: ['tag1', 'tag2']
-    };
+    // state = {
+        /**
+         * This piece of code is executed only once when an instance of a counter is created.
+         * If this value changes after this - e.g: Clicking on Reset button of your parent, this value won't be updated, because we haven't a single source of truth
+         * This kind of component is referred as a Controlled Component, doesn't have it's own state, it receives all the data via props and raise events
+         * whenever data needs to be changed. So it's component is entirely controlled by it's parent.
+         */
+        // value: this.props.counter.value
+    // };
 
     // constructor() {
     //     super();
@@ -16,37 +21,37 @@ class Counter extends Component {
     render() {
         /**
          * return <h1>Hello again</h1><button>Increment</button>;
-         * The line above will throw a Parsing error: The JSX elements must be wrapped in an enclosing tag.
-         * To fix this, we can wrap these 2 elements into a React.Fragment - it will avoid add extra tags to wrap these elements, like a div 
+         * The line above will throw a Parsing error: "The JSX elements must be wrapped in an enclosing tag" due to the render method must return a single el
+         * To fix this, we can wrap these 2 elements into a React.Fragment - it will avoid add extra tags to wrap these elements, like a div
          */
+        // console.log(this.props);
+
         return (
-            <React.Fragment>
+            <div>
                 <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
-                <button onClick={ () => this.handleIncrement({ id: 1 }) } className="btn btn-secondary btn-sm">Increment</button>
-                {/* <ul>
-                    { this.state.tags.map(tag => <li key={ tag }>{ tag }</li>)}
-                </ul> */}
-            </React.Fragment>
+                <button onClick={ () => this.props.onIncrement(this.props.counter) } className="btn btn-secondary btn-sm">Increment</button>
+                <button onClick={ () => this.props.onDelete(this.props.counter.id) } className="btn btn-danger btn-sm m-2">Delete</button>
+            </div>
         );
     }
 
     getBadgeClasses() {
         let classes = "badge m-2 badge-";
-        classes += this.state.count === 0 ? "warning" : "primary";
+        classes += this.props.counter.value === 0 ? "warning" : "primary";
 
         return classes;
     }
 
     formatCount() {
-        const { count } = this.state;
-        return count === 0 ? 'Zero' : count;
+        const { value } = this.props.counter;
+        return value === 0 ? 'Zero' : value;
     }
 
     // Converted to arrow function - by this way the "this" will refer that object, otherwise will be undefined
-    handleIncrement = (product) => {
-        console.log(product);
-        this.setState({ count: this.state.count + 1 });
-    }
+    // It must be handled by your parent component once this component have not your own local state anymore
+    // handleIncrement = () => {
+    //     this.setState({ value: this.state.value + 1 });
+    // }
 }
 
 export default Counter;
