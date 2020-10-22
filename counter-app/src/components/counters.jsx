@@ -1,58 +1,33 @@
-import React, { Component } from 'react';
-import Counter from './counter';
+import React, { Component } from "react";
+import Counter from "./counter";
 
 class Counters extends Component {
-    state = {
-        counters: [
-            {
-                id: 1,
-                value: 4
-            },
-            {
-                id: 2,
-                value: 0
-            },
-            {
-                id: 3,
-                value: 0
-            },
-            {
-                id: 4,
-                value: 0
-            }
-        ]
-    }
-    render() { 
-        return (
-            <div>
-                <button onClick={this.handleReset} className="btn btn-primary btn-sm m-2">Reset</button>
-                {this.state.counters.map( counter => 
-                    <Counter key={counter.id} onIncrement={this.handleIncrement} onDelete={this.handleDelete} counter={counter} />
-                )}
-            </div>
-        );
-    }
-
-    handleDelete = (counterId) => {
-        const counters = this.state.counters.filter( counter => counter.id !== counterId);
-        this.setState({ counters });
-    }
-
-    handleReset = () => {
-        const counters = this.state.counters.map(counter => {
-            counter.value = 0;
-            return counter;
-        });
-        this.setState({ counters });
-    }
-
-    handleIncrement = (counter) => {
-        const counters = [...this.state.counters]; // cloning the counters array from the state
-        const index = counters.indexOf(counter);
-        counters[index] = {...counter}; // we also need to clone the record we are going to modify - it will avoid change the state directly
-        counters[index].value++;
-        this.setState({ counters });
-    }
+  /**
+   * Now the counters component is a controlled component (have not your own local state).
+   * We lifted up the state of the counters component to it's parent (App component)
+   * Now we can share this state with the children of these components via props and with this tecnique we have multiple components in sync.
+   */
+  render() {
+    return (
+      <div>
+        <button
+          onClick={this.props.onReset}
+          className="btn btn-primary btn-sm m-2"
+        >
+          Reset
+        </button>
+        {this.props.counters.map((counter) => (
+          // The counter component raises these events below and here we are bubbling it up to the parent of this component.
+          <Counter
+            key={counter.id}
+            onIncrement={this.props.onIncrement}
+            onDelete={this.props.onDelete}
+            counter={counter}
+          />
+        ))}
+      </div>
+    );
+  }
 }
- 
+
 export default Counters;
