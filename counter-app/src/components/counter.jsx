@@ -18,7 +18,16 @@ class Counter extends Component {
   //     this.handleIncrement = this.handleIncrement.bind(this);
   // }
 
+  /**
+   * The componentWillUnmount method is called just before a component is removed from the DOM.
+   * It gives us an opportunity to do any kind of cleanup, otherwise we will end up with memory. (e.g: if we have set up timers, listeners, etc)
+   */
+  componentWillUnmount() {
+    console.log("Counter - Unmount");
+  }
+
   render() {
+    const { counter, onIncrement, onDecrement, onDelete } = this.props;
     /**
      * return <h1>Hello again</h1><button>Increment</button>;
      * The line above will throw a Parsing error: "The JSX elements must be wrapped in an enclosing tag" due to the render method must return a single el
@@ -28,20 +37,27 @@ class Counter extends Component {
     console.log("Counter - Rendered");
 
     return (
-      <div>
-        <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
-        <button
-          onClick={() => this.props.onIncrement(this.props.counter)}
-          className="btn btn-secondary btn-sm"
-        >
-          Increment
-        </button>
-        <button
-          onClick={() => this.props.onDelete(this.props.counter.id)}
-          className="btn btn-danger btn-sm m-2"
-        >
-          Delete
-        </button>
+      <div className="row">
+        <div className="col-1">
+          <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+        </div>
+        <div className="col">
+          <button
+            onClick={() => onIncrement(counter)}
+            className="btn btn-secondary btn-sm fa fa-plus"
+          ></button>
+          <button
+            onClick={() => onDecrement(counter)}
+            className="btn btn-secondary btn-sm m-2 fa fa-minus"
+            disabled={counter.value === 0 ? "disabled" : ""}
+          ></button>
+          <button
+            onClick={() => onDelete(counter.id)}
+            className="btn btn-danger btn-sm m-2"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     );
   }

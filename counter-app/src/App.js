@@ -64,6 +64,7 @@ class App extends Component {
             counters={this.state.counters}
             onReset={this.handleReset}
             onIncrement={this.handleIncrement}
+            onDecrement={this.handleDecrement}
             onDelete={this.handleDelete}
           />
         </main>
@@ -91,6 +92,14 @@ class App extends Component {
     const index = counters.indexOf(counter);
     counters[index] = { ...counter }; // we also need to clone the record we are going to modify - it will avoid change the state directly
     counters[index].value++;
+    this.setState({ counters });
+  };
+
+  handleDecrement = (counter) => {
+    const counters = [...this.state.counters]; // cloning the counters array from the state
+    const index = counters.indexOf(counter);
+    counters[index] = { ...counter }; // we also need to clone the record we are going to modify - it will avoid change the state directly
+    counters[index].value--;
     this.setState({ counters });
   };
 }
