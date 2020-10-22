@@ -26,7 +26,32 @@ class App extends Component {
     ],
   };
 
+  /**
+   * The constructor method is called once and it's the right place to initialize the properties in this class.
+   * Notes: this.props is not accessible here. To works we need to add the props as an argument in the constructor() and in the super() call.
+   * e.g: constructor(props) | super(props);
+   * In the constructor we set the state directly - The setState() method can only be called when a component is rendered and placed in the DOM.
+   */
+  constructor() {
+    super();
+    console.log("App - Constructor");
+  }
+
+  /**
+   * The componentDidMount method is called after our component is rendered into the DOM. It's the perfect place to make ajax calls, to get data from the server.
+   *
+   */
+  componentDidMount() {
+    console.log("App - Mounted");
+  }
+
+  /**
+   * The render method returns a react element that represents our Virtual DOM. Then React gets that Virtual DOM and render it in the actual browser DOM.
+   * Then, our component is mounted.
+   * When a component is rendered, all it's children are also rendered recursively, after that, the component is mounted and is in the DOM.
+   */
   render() {
+    console.log("App - Rendered");
     return (
       <React.Fragment>
         <NavBar

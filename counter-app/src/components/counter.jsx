@@ -25,6 +25,7 @@ class Counter extends Component {
      * To fix this, we can wrap these 2 elements into a React.Fragment - it will avoid add extra tags to wrap these elements, like a div
      */
     // console.log(this.props);
+    console.log("Counter - Rendered");
 
     return (
       <div>
