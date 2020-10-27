@@ -1,10 +1,13 @@
 import React, { Component } from "react";
+
 import { getGenres } from "../services/fakeGenreService";
 import { getMovies } from "../services/fakeMovieService";
+
 import Like from "./common/like";
 import Pagination from "./common/pagination";
-import { paginate } from "../utils/paginate";
 import ListGroup from "./common/listGroup";
+
+import { paginate } from "../utils/paginate";
 
 class Movies extends Component {
   state = {
@@ -16,28 +19,38 @@ class Movies extends Component {
   };
 
   componentDidMount() {
-    this.setState({ movies: getMovies(), genres: getGenres() });
+    const genres = [{ name: "All Genres" }, ...getGenres()];
+    this.setState({ movies: getMovies(), genres });
   }
 
   render() {
     const { length: moviesCount } = this.state.movies;
-    const { pageSize, currentPage, movies: allMovies } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      selectedGenre,
+      movies: allMovies,
+    } = this.state;
 
     if (moviesCount === 0) return <h2>There are no movies in the database.</h2>;
 
-    const movies = paginate(allMovies, currentPage, pageSize);
+    const filtered =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+        : allMovies;
+
+    const movies = paginate(filtered, currentPage, pageSize);
     return (
       <div className="row">
         <div className="col-3">
           <ListGroup
             items={this.state.genres}
-            textProperty="name"
-            valueProperty="_id"
+            selectedItem={this.state.selectedGenre}
             onItemSelect={this.handleGenreSelect}
           />
         </div>
         <div className="col">
-          <h2>Showing {moviesCount} movies in the Database.</h2>
+          <h2>Showing {filtered.length} movies in the Database.</h2>
 
           <table className="table">
             <thead>
@@ -80,7 +93,7 @@ class Movies extends Component {
           </table>
 
           <Pagination
-            itemsCount={moviesCount}
+            itemsCount={filtered.length}
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChange={this.handlePageChange}
@@ -110,7 +123,7 @@ class Movies extends Component {
   };
 
   handleGenreSelect = (genre) => {
-    console.log(genre);
+    this.setState({ selectedGenre: genre, currentPage: 1 });
   };
 }
 
