@@ -1,5 +1,6 @@
 import React from "react";
-import _ from "lodash"; // JS library with a bunch of utility functions - it's a optimized version of a popular JS library called underscore.
+import _ from "lodash"; // JS library with a bunch of utility methods - it's a optimized version of a popular JS library called underscore.
+import PropTypes from "prop-types";
 
 const Pagination = (props) => {
   const { itemsCount, pageSize, currentPage, onPageChange } = props;
@@ -27,6 +28,13 @@ const Pagination = (props) => {
       </ul>
     </nav>
   );
+};
+
+Pagination.propTypes = {
+  itemsCount: PropTypes.number.isRequired,
+  pageSize: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  onPageChange: PropTypes.func.isRequired,
 };
 
 export default Pagination;
