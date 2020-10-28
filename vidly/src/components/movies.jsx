@@ -11,7 +11,6 @@ class Movies extends Component {
   state = {
     movies: [],
     genres: [],
-    liked: false,
     pageSize: 4,
     currentPage: 1,
     sortColumn: {
