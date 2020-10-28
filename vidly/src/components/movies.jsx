@@ -26,24 +26,12 @@ class Movies extends Component {
 
   render() {
     const { length: moviesCount } = this.state.movies;
-    const {
-      pageSize,
-      currentPage,
-      sortColumn,
-      selectedGenre,
-      movies: allMovies,
-    } = this.state;
+    const { pageSize, currentPage, sortColumn } = this.state;
 
     if (moviesCount === 0) return <h2>There are no movies in the database.</h2>;
 
-    const filtered =
-      selectedGenre && selectedGenre._id
-        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-        : allMovies;
+    const { totalCount, data: movies } = this.getPagedData();
 
-    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-
-    const movies = paginate(sorted, currentPage, pageSize);
     return (
       <div className="row">
         <div className="col-3">
@@ -54,7 +42,7 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <h2>Showing {filtered.length} movies in the Database.</h2>
+          <h2>Showing {totalCount} movies in the Database.</h2>
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}
@@ -63,7 +51,7 @@ class Movies extends Component {
             onSort={this.handleSort}
           />
           <Pagination
-            itemsCount={filtered.length}
+            itemsCount={totalCount}
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChange={this.handlePageChange}
@@ -72,6 +60,27 @@ class Movies extends Component {
       </div>
     );
   }
+
+  getPagedData = () => {
+    const {
+      pageSize,
+      currentPage,
+      sortColumn,
+      selectedGenre,
+      movies: allMovies,
+    } = this.state;
+
+    const filtered =
+      selectedGenre && selectedGenre._id
+        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+        : allMovies;
+
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+
+    const movies = paginate(sorted, currentPage, pageSize);
+
+    return { totalCount: filtered.length, data: movies };
+  };
 
   handleDelete = (movieToDelete) => {
     const movies = this.state.movies.filter(
