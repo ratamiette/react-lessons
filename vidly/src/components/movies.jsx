@@ -42,6 +42,9 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
+          <button className="btn btn-primary" onClick={this.handleNew}>
+            New Movie
+          </button>
           <h2>Showing {totalCount} movies in the Database.</h2>
           <MoviesTable
             movies={movies}
@@ -107,6 +110,10 @@ class Movies extends Component {
 
   handleSort = (sortColumn) => {
     this.setState({ sortColumn });
+  };
+
+  handleNew = () => {
+    console.log("new movie");
   };
 }
 
