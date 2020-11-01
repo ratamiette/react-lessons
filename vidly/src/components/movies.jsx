@@ -5,6 +5,7 @@ import { getGenres } from "../services/fakeGenreService";
 import { getMovies } from "../services/fakeMovieService";
 import Pagination from "./common/pagination";
 import ListGroup from "./common/listGroup";
+import SearchBox from "./common/searchBox";
 import { paginate } from "../utils/paginate";
 import _ from "lodash";
 
@@ -14,6 +15,8 @@ class Movies extends Component {
     genres: [],
     pageSize: 4,
     currentPage: 1,
+    searchQuery: "",
+    selectedGenre: null,
     sortColumn: {
       path: "title",
       order: "asc",
@@ -27,7 +30,14 @@ class Movies extends Component {
 
   render() {
     const { length: moviesCount } = this.state.movies;
-    const { pageSize, currentPage, sortColumn } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      sortColumn,
+      genres,
+      selectedGenre,
+      searchQuery,
+    } = this.state;
 
     if (moviesCount === 0) return <h2>There are no movies in the database.</h2>;
 
@@ -37,8 +47,8 @@ class Movies extends Component {
       <div className="row">
         <div className="col-3">
           <ListGroup
-            items={this.state.genres}
-            selectedItem={this.state.selectedGenre}
+            items={genres}
+            selectedItem={selectedGenre}
             onItemSelect={this.handleGenreSelect}
           />
         </div>
@@ -51,6 +61,7 @@ class Movies extends Component {
             New Movie
           </Link>
           <h2>Showing {totalCount} movies in the Database.</h2>
+          <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <MoviesTable
             movies={movies}
             sortColumn={sortColumn}
@@ -75,13 +86,21 @@ class Movies extends Component {
       currentPage,
       sortColumn,
       selectedGenre,
+      searchQuery,
       movies: allMovies,
     } = this.state;
 
-    const filtered =
-      selectedGenre && selectedGenre._id
-        ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
-        : allMovies;
+    const genreFilter = (movie) => movie.genre._id === selectedGenre._id;
+    const searchFilter = (movie) =>
+      movie.title.toLowerCase().includes(searchQuery.toLowerCase());
+
+    let filtered = allMovies;
+
+    if (searchQuery) {
+      filtered = allMovies.filter(searchFilter);
+    } else if (selectedGenre && selectedGenre._id) {
+      filtered = allMovies.filter(genreFilter);
+    }
 
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
 
@@ -110,11 +129,15 @@ class Movies extends Component {
   };
 
   handleGenreSelect = (genre) => {
-    this.setState({ selectedGenre: genre, currentPage: 1 });
+    this.setState({ searchQuery: "", selectedGenre: genre, currentPage: 1 });
   };
 
   handleSort = (sortColumn) => {
     this.setState({ sortColumn });
+  };
+
+  handleSearch = (query) => {
+    this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
   };
 }
 
