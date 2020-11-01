@@ -1,21 +1,69 @@
 import React, { Component } from "react";
+import axios from "axios";
 import "./App.css";
+
+const apiEndpoint = "https://jsonplaceholder.typicode.com/posts";
+
+axios.interceptors.response.use(null, (error) => {
+  const expectedError =
+    error.response &&
+    error.response.status >= 400 &&
+    error.response.status < 500;
+
+  if (!expectedError) {
+    // Handling unexpected errors
+    console.error("Loggin the error", error);
+    alert("An unexpected error occurred.");
+  }
+
+  return Promise.reject(error);
+});
 
 class App extends Component {
   state = {
-    posts: []
+    posts: [],
   };
 
-  handleAdd = () => {
-    console.log("Add");
+  async componentDidMount() {
+    const { data: posts } = await axios.get(apiEndpoint);
+    this.setState({ posts });
+  }
+
+  handleAdd = async () => {
+    const obj = { title: "a", body: "b" };
+    const { data: post } = await axios.post(apiEndpoint, obj);
+
+    const posts = [post, ...this.state.posts];
+    this.setState({ posts });
   };
 
-  handleUpdate = post => {
-    console.log("Update", post);
+  handleUpdate = async (post) => {
+    post.title = "UPDATED";
+    await axios.put(`${apiEndpoint}/${post.id}`, post);
+
+    const posts = [...this.state.posts];
+    const index = posts.indexOf(post);
+    posts[index] = { ...post };
+    this.setState({ posts });
   };
 
-  handleDelete = post => {
-    console.log("Delete", post);
+  handleDelete = async (post) => {
+    // Optimistic Update
+    const originalPosts = this.state.posts;
+
+    const posts = this.state.posts.filter((p) => p.id !== post.id);
+    this.setState({ posts });
+
+    try {
+      await axios.delete(`${apiEndpoint}/${post.id}`);
+    } catch (ex) {
+      // Handling expected errors
+      if (ex.response && ex.response.status === 404) {
+        alert("This post has already been deleted");
+      }
+
+      this.setState({ posts: originalPosts });
+    }
   };
 
   render() {
@@ -33,7 +81,7 @@ class App extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.posts.map(post => (
+            {this.state.posts.map((post) => (
               <tr key={post.id}>
                 <td>{post.title}</td>
                 <td>
