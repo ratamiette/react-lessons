@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import MoviesTable from "./moviesTable";
 import { getGenres } from "../services/fakeGenreService";
 import { getMovies } from "../services/fakeMovieService";
@@ -42,9 +43,13 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          <button className="btn btn-primary" onClick={this.handleNew}>
+          <Link
+            to="/movies/new"
+            className="btn btn-primary"
+            style={{ marginBottom: 20 }}
+          >
             New Movie
-          </button>
+          </Link>
           <h2>Showing {totalCount} movies in the Database.</h2>
           <MoviesTable
             movies={movies}
@@ -110,10 +115,6 @@ class Movies extends Component {
 
   handleSort = (sortColumn) => {
     this.setState({ sortColumn });
-  };
-
-  handleNew = () => {
-    console.log("new movie");
   };
 }
 
