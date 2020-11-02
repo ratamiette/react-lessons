@@ -1,11 +1,20 @@
 import http from "./httpService";
-import config from "../config.json";
+import { apiBaseUrl } from "../config.json";
 
-const endpoint = `${config.apiBaseUrl}/movies`;
+const endpoint = `${apiBaseUrl}/movies`;
 
 export function getMovies() {
   return http.get(endpoint);
 }
+
+export function getMovie(movieId) {
+  return http.get(`${endpoint}/${movieId}`);
+}
+
+export function saveMovie(movie) {
+  // @TODO
+}
+
 export function deleteMovie(movieId) {
   return http.delete(`${endpoint}/${movieId}`);
 }
