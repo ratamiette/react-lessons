@@ -38,7 +38,9 @@ class LoginForm extends Form {
       const { data } = this.state;
       const { data: jwt } = await login(data.username, data.password);
       localStorage.setItem("token", jwt);
-      this.props.history.push("/");
+
+      // the window.location below is need to do a full reload, as the componentDidMount in the App is called once - where we are decoding the token to update the state
+      window.location = "/";
     } catch (exception) {
       if (exception.response && exception.response.status === 400) {
         const errors = { ...this.state.errors };

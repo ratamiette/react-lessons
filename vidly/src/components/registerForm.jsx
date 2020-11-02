@@ -37,7 +37,9 @@ class RegisterForm extends Form {
     try {
       const response = await userService.register(this.state.data);
       localStorage.setItem("token", response.headers["x-auth-token"]);
-      this.props.history.push("/");
+
+      // the window.location below is need to do a full reload, as the componentDidMount in the App is called once - where we are decoding the token to update the state
+      window.location = "/";
     } catch (exception) {
       if (exception.response && exception.response.status === 400) {
         const errors = { ...this.state.errors };
