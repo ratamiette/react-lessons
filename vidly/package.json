@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.18.1",
     "joi-browser": "^13.4.0",
+    "jwt-decode": "^2.2.0",
     "lodash": "^4.17.20",
     "prop-types": "^15.6.2",
     "react": "^16.14.0",
