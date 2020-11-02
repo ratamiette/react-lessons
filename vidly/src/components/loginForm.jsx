@@ -1,6 +1,7 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
+import { login } from "../services/authService";
 
 class LoginForm extends Form {
   // username = React.createRef(); // create a reference to use in the input field. e.g:
@@ -32,9 +33,9 @@ class LoginForm extends Form {
     );
   }
 
-  doSubmit = () => {
-    // Call the server to persist data
-    console.log("Submited");
+  doSubmit = async () => {
+    const { data } = this.state;
+    await login(data.username, data.password);
   };
 }
 
