@@ -3,12 +3,12 @@ import httpService from "./httpService";
 import { apiBaseUrl } from "../config.json";
 
 const endpoint = `${apiBaseUrl}/auth`;
-const tokenKey = 'token';
+const tokenKey = "token";
 
 httpService.setToken(getToken());
 
 async function login(email, password) {
-  const { data: token} = await httpService.post(endpoint, { email, password });
+  const { data: token } = await httpService.post(endpoint, { email, password });
   localStorage.setItem(tokenKey, token);
 }
 
@@ -38,5 +38,5 @@ export default {
   loginWithToken,
   getCurrentUser,
   getToken,
-  logout
-}
+  logout,
+};

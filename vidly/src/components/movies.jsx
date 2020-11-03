@@ -57,13 +57,15 @@ class Movies extends Component {
           />
         </div>
         <div className="col">
-          { user && <Link
-            to="/movies/new"
-            className="btn btn-primary"
-            style={{ marginBottom: 20 }}
-          >
-            New Movie
-          </Link>}
+          {user && (
+            <Link
+              to="/movies/new"
+              className="btn btn-primary"
+              style={{ marginBottom: 20 }}
+            >
+              New Movie
+            </Link>
+          )}
           <h2>Showing {totalCount} movies in the Database.</h2>
           <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <MoviesTable
