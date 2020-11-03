@@ -1,7 +1,7 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
-import { login } from "../services/authService";
+import authService from '../services/authService';
 
 class LoginForm extends Form {
   // username = React.createRef(); // create a reference to use in the input field. e.g:
@@ -36,8 +36,7 @@ class LoginForm extends Form {
   doSubmit = async () => {
     try {
       const { data } = this.state;
-      const { data: jwt } = await login(data.username, data.password);
-      localStorage.setItem("token", jwt);
+      await authService.login(data.username, data.password);
 
       // the window.location below is need to do a full reload, as the componentDidMount in the App is called once - where we are decoding the token to update the state
       window.location = "/";

@@ -1,7 +1,8 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
-import * as userService from "../services/userService";
+import userService from "../services/userService";
+import authService from '../services/authService';
 
 class RegisterForm extends Form {
   state = {
@@ -36,7 +37,7 @@ class RegisterForm extends Form {
   doSubmit = async () => {
     try {
       const response = await userService.register(this.state.data);
-      localStorage.setItem("token", response.headers["x-auth-token"]);
+      authService.loginWithToken(response.headers["x-auth-token"]);
 
       // the window.location below is need to do a full reload, as the componentDidMount in the App is called once - where we are decoding the token to update the state
       window.location = "/";
