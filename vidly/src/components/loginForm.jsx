@@ -1,7 +1,8 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import Joi from "joi-browser";
 import Form from "./common/form";
-import authService from '../services/authService';
+import authService from "../services/authService";
 
 class LoginForm extends Form {
   // username = React.createRef(); // create a reference to use in the input field. e.g:
@@ -21,6 +22,7 @@ class LoginForm extends Form {
   };
 
   render() {
+    if (authService.getCurrentUser()) return <Redirect to="/" />;
     return (
       <div>
         <h1>Login</h1>
@@ -39,7 +41,8 @@ class LoginForm extends Form {
       await authService.login(data.username, data.password);
 
       // the window.location below is need to do a full reload, as the componentDidMount in the App is called once - where we are decoding the token to update the state
-      window.location = "/";
+      const { state } = this.props.location;
+      window.location = state ? state.from.pathname : "/";
     } catch (exception) {
       if (exception.response && exception.response.status === 400) {
         const errors = { ...this.state.errors };
