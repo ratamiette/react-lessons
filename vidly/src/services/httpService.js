@@ -1,6 +1,9 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import logger from "./logService";
+import authService from './authService';
+import logService from "./logService";
+
+axios.defaults.headers.common['x-auth-token'] = authService.getToken();
 
 axios.interceptors.response.use(null, (error) => {
   const expectedError =
@@ -10,7 +13,7 @@ axios.interceptors.response.use(null, (error) => {
 
   if (!expectedError) {
     // Handling unexpected errors
-    logger.log(error);
+    logService.log(error);
     toast.error("An unexpected error occurred.");
   }
 
