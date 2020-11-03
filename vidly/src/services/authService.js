@@ -5,20 +5,22 @@ import { apiBaseUrl } from "../config.json";
 const endpoint = `${apiBaseUrl}/auth`;
 const tokenKey = 'token';
 
-export async function login(email, password) {
+httpService.setToken(getToken());
+
+async function login(email, password) {
   const { data: token} = await httpService.post(endpoint, { email, password });
   localStorage.setItem(tokenKey, token);
 }
 
-export function loginWithToken(token) {
+function loginWithToken(token) {
   localStorage.setItem(tokenKey, token);
 }
 
-export function getToken() {
-  return localStorage.getItem(tokenKey);xw
+function getToken() {
+  return localStorage.getItem(tokenKey);
 }
 
-export function getCurrentUser() {
+function getCurrentUser() {
   try {
     const token = localStorage.getItem(tokenKey);
     return jwtDecode(token);
@@ -27,7 +29,7 @@ export function getCurrentUser() {
   }
 }
 
-export function logout() {
+function logout() {
   localStorage.removeItem(tokenKey);
 }
 

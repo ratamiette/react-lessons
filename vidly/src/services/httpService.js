@@ -1,9 +1,6 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import authService from './authService';
 import logService from "./logService";
-
-axios.defaults.headers.common['x-auth-token'] = authService.getToken();
 
 axios.interceptors.response.use(null, (error) => {
   const expectedError =
@@ -20,9 +17,14 @@ axios.interceptors.response.use(null, (error) => {
   return Promise.reject(error);
 });
 
+export function setToken(token) {
+  axios.defaults.headers.common['x-auth-token'] = token;
+}
+
 export default {
   get: axios.get,
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
+  setToken
 };
