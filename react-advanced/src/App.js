@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import MoviePage from "./context/MoviePage";
 import UserContext from "./context/userContext";
+import CartContext from "./context/cartContext";
 import Login from "./context/Login";
 
 class App extends Component {
@@ -19,17 +20,19 @@ class App extends Component {
   };
   render() {
     return (
-      <UserContext.Provider
-        value={{
-          currentUser: this.state.currentUser,
-          onLoggedIn: this.handleLoggedIn, // passing this method down using our context object, any components in our component three can call this method
-        }}
-      >
-        <div>
-          <MoviePage />
-          <Login />
-        </div>
-      </UserContext.Provider>
+      <CartContext.Provider value={{ cart: [] }}>
+        <UserContext.Provider
+          value={{
+            currentUser: this.state.currentUser,
+            onLoggedIn: this.handleLoggedIn, // passing this method down using our context object, any components in our component three can call this method
+          }}
+        >
+          <div>
+            <MoviePage />
+            <Login />
+          </div>
+        </UserContext.Provider>
+      </CartContext.Provider>
     );
   }
 }
