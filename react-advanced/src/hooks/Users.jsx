@@ -18,7 +18,7 @@ function Users(props) {
     <div>
       <ul>
         {users.map((user) => (
-          <li>{user.name}</li>
+          <li key={user.id}>{user.name}</li>
         ))}
       </ul>
     </div>
