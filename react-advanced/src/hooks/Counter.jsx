@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 
 function Counter(props) {
   // const array = useState(0);
@@ -8,6 +8,18 @@ function Counter(props) {
 
   const [count, setCount] = useState(0);
   const [name, setName] = useState("");
+
+  useEffect(() => {
+    // the code that would be into the componentDidMount and componentDidUpdate lifecycle methods
+    console.log("useEffect callback");
+
+    document.title = `${name} has clicked ${count} times!`;
+
+    return () => {
+      // the code that would be into the componentWillUnmount lifecycle method
+      console.log("Clean Up");
+    };
+  }, [count]); // array of dependencies - will list all the state's variables that the useEffect hook depends upon.
 
   return (
     <Fragment>
