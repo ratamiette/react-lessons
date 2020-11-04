@@ -13,7 +13,11 @@ class MovieList extends Component {
     return (
       // The Consumer component expects a function as its child
       <UserContext.Consumer>
-        {(currentUser) => <div>Movie List - {currentUser.name}</div>}
+        {(currentUser) => (
+          <div>
+            Movie List - {currentUser.name} <MovieRow />
+          </div>
+        )}
       </UserContext.Consumer>
     );
   }
