@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import UserContext from "./userContext";
+import MovieRow from "./MovieRow";
 
 class MovieList extends Component {
   // first way to provide access to the context outside of the render method
@@ -13,9 +14,11 @@ class MovieList extends Component {
     return (
       // The Consumer component expects a function as its child
       <UserContext.Consumer>
-        {(currentUser) => (
+        {(userContext) => (
           <div>
-            Movie List - {currentUser.name} <MovieRow />
+            Movie List -
+            {userContext.currentUser ? userContext.currentUser.name : ""}
+            <MovieRow />
           </div>
         )}
       </UserContext.Consumer>

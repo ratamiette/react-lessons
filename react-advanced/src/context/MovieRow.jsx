@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
-import UserContext from "./context/userContext";
+import UserContext from "./userContext";
 
 function MovieRow(props) {
-  const currentUser = useContext(UserContext);
-  console.log(currentUser);
-  return <div>{currentUser.name}</div>;
+  const userContext = useContext(UserContext);
+  console.log("MovieRow", userContext);
+  return (
+    <div>
+      Movie Row - {userContext.currentUser ? userContext.currentUser.name : ""}{" "}
+    </div>
+  );
 }
 
 export default MovieRow;
