@@ -1,5 +1,5 @@
 
-A aplicação <b>vidly</b> é uma simples aplicação para criar, listar, atualizar e deletar filmes. Inclui features como:
+<b>A aplicação vidly</b> é uma simples aplicação para criar, listar, atualizar e deletar filmes. Inclui features como:
 
 - Paginação
 - Campo para buscar os filmes pelo título
@@ -8,4 +8,5 @@ A aplicação <b>vidly</b> é uma simples aplicação para criar, listar, atuali
 
 Foi construída para entender os conceitos do React.
 
-A aplicação <b>react-advanced-concepts</b> foi criada para compreender os conceitos mais avançados do React após a versão 16.8, como Higher Order Components, Hooks w Contexts.
+
+<b>A aplicação react-advanced-concepts</b> foi criada para compreender os novos conceitos do React (implementados a partir da versão 16.8), como Higher Order Components, Hooks, Contexts, etc.
